@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			/*
+			先获取标签对象
+			*/
+		    var emailError =document.getElementById("emailError");
+			var username= document.getElementById("username");
+			var email = document.getElementById("email");
+			var password =document.getElementById("password");
+			var passwordTow =document.getElementById("confirmpwd");
+			var sub =document.getElementById("but");
+			var usernameError =document.getElementById("usernameError")
+			var pawError =document.getElementById("pawError")
+			// 用户名失去焦点验证用户名是否为空，是否在6-14之间 是否是字母和数字组成
+		      username.onblur=function(){
+				  var usenameValue=username.value.trim()//去除空格的value值
+				  var rge =/^[a-zA-Z0-9]+$/
+				  if(usenameValue == null || usenameValue==""){
+					  usernameError.innerText="用户名不能为空"
+				  }else if(usenameValue.length<6 || usenameValue.length>14){
+					  usernameError.innerText="用户名必须在6-14之间" 
+					  
+				  }else if(!rge.test(usenameValue)){
+
+					  usernameError.innerText="只能有数字字母组成"
+					  
+				  }
+				
+		       }
+			 //获取焦点，把不合法的数据，提示清空
+			  username.onfocus=function(){
+				 empty(username,usernameError)
+			  }
+			  //密码和确认密码一致
+			  passwordTow.onblur=function(){
+				  var passwordTowValue = passwordTow.value.trim()
+				  var passwordValue =password.value.trim();
+				  if(passwordTowValue!=password.value){
+					  isYes=false
+					  pawError.innerText="密码和确认密码不一致"
+				  }else{
+					  isYes=true;
+				  }
+				  
+			  }
+			  passwordTow.onfocus=function(){
+				  empty(passwordTow,pawError,password)
+			  }
+			  //表单提交
+			  sub.onclick=function(){
+				  username.focus();
+				  username.blur();
+				  passwordTow.focus()
+				  passwordTow.blur();
+				  email.focus();
+				  email.blur()
+				  if(emailError.innerText=="" && usernameError.innerText=="" && pawError.innerText=="" ){
+					var form =  document.getElementById("myform")
+					form.submit();
+				  }
+			  }
+			  //邮箱验证。
+			  email.onblur=function(){
+				  var emailValue= document.getElementById("email").value
+				  var email =/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/
+				  var isEmail= email.test(emailValue)
+				  if(!isEmail){
+					  emailError.innerText = "邮箱格式错误"
+					  isYes=false;
+				  }else{
+					  isYes=true;
+				  }
+				  
+			  }
+			  email.onfocus=function(){
+				  empty(email,emailError);
+			  }
+			  email.onkeydown=function(event){
+				  if(event.keyCode==13){
+					if(emailError.innerText=="" && usernameError.innerText=="" && pawError.innerText=="" ){
+						var form =  document.getElementById("myform")
+						form.onsubmit;
+					}else{
+					  event.preventDefault();
+					}
+				  }
+			  }
+		   
+		}
+		/*
+		用来统一处理情况不合法数据，和提示
+		*/
+	   function empty(inputId,spanId,inputTowId){
+		   if(inputTowId!=null){
+			   if(spanId.innerText!=""){
+			   	  inputTowId.value=""
+			   }
+		   }
+		   if(spanId.innerText!=""){
+			   inputId.value=""
+		   }
+		   spanId.innerText=""
+	   }
+	   
+	</script>
+	<body>
+               <h1>fgt我cnm</h1>
+		<form id="myform" method="get" >
+		用户名:<input type="text" name="username" id="username">
+		        <span id="usernameError" style="color: red;" ></span><br>
+		  密码:<input type="password" name="userpwd" id="password"><br>
+	   确认密码:<input type="password" id="confirmpwd">  
+	            <span id="pawError" style="color: red;" ></span><br>
+	      邮箱: <input type="text" name="email" id="email">   
+		   <span id="emailError" style="color: red" ></span><br>
+		  <input type="button" id="but" value="提交">
+		  <input type="button" value="关闭" onclick='window.close()'>
+		 </form>
+	</body>
+</html>
